@@ -33,6 +33,7 @@ $(function () {
     $(this).toggleClass('present', blockHour === currentHour);
     $(this).toggleClass('future', blockHour > currentHour);
     });
+  }
   function refreshColor() {
     $('.time-block').each(function() {
     const blockHour = parseInt(this.id);
@@ -55,7 +56,6 @@ $(function () {
     const value = localStorage.getItem(key);
     $(this).children('.description').val(value);
   });
-}
 
   // TODO: Add code to display the current date in the header of the page.
   
