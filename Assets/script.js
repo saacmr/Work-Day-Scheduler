@@ -11,12 +11,13 @@ $(function () {
   // function? How can DOM traversal be used to get the "hour-x" id of the
   // time-block containing the button that was clicked? How might the id be
   // useful when saving the description in local storage?
+  const currentHour = dayjs().format('H');
 
   function textEntry() {
     $('.saveBtn').on('click', function() {
-      const key = $(this).parent().attr('id');
-      const value = $(this).siblings('.description').val();
-      localStorage.setItem(key, value);
+    const key = $(this).parent().attr('id');
+    const value = $(this).siblings('.description').val();
+    localStorage.setItem(key, value);
     });
   }
 
@@ -25,6 +26,25 @@ $(function () {
   // attribute of each time-block be used to conditionally add or remove the
   // past, present, and future classes? How can Day.js be used to get the
   // current hour in 24-hour time?
+  function hourlyColor() {
+    $('.time-block').each(function() {
+    const blockHour = parseInt(this.id);
+    $(this).toggleClass('past', blockHour < currentHour);
+    $(this).toggleClass('present', blockHour === currentHour);
+    $(this).toggleClass('future', blockHour > currentHour);
+    });
+  function refreshColor() {
+    $('.time-block').each(function() {
+    const blockHour = parseInt(this.id);
+    if (blockHour == currentHour) {
+        $(this).removeClass('past future').addClass('present');
+    } else if (blockHour < currentHour) {
+      $(this).removeClass('future present').addClass('past');
+    } else {
+      $(this).removeClass('past present').addClass('future');
+    }
+    });
+  }
   //
   // TODO: Add code to get any user input that was saved in localStorage and set
   // the values of the corresponding textarea elements. HINT: How can the id
@@ -35,6 +55,7 @@ $(function () {
     const value = localStorage.getItem(key);
     $(this).children('.description').val(value);
   });
+}
 
   // TODO: Add code to display the current date in the header of the page.
   
@@ -47,5 +68,7 @@ $(function () {
     timeElement.text(currentTime);
   }
   setInterval(updateTime, 1000);
-  textEntry();              
+  textEntry();
+  hourlyColor();
+  refreshColor();
 });
