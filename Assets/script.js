@@ -1,4 +1,3 @@
-
 const localeSettings = {};
 dayjs.locale(localeSettings);
 
@@ -32,7 +31,7 @@ $(function () {
     }
     });
   }
-  
+
   $('.time-block').each(function() {
     const key = $(this).attr('id');
     const value = localStorage.getItem(key);
